@@ -123,6 +123,8 @@ s.close()
 
 The functionality is the same as the loopback setup. The only difference is that this version uses DHCP to automatically get the IP address.
 
+## HTTP client
+
 **File:** `HTTP_Client.py`
 
 This code uses the WIZnet W5x00 series Ethernet chip (specifically W55RP20) to connect to a network and send HTTP GET and POST requests. Using the urequests module, the code sends HTTP requests and prints the responses, verifying that the network communication is working correctly.
