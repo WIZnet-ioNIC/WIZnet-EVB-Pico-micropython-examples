@@ -56,3 +56,6 @@ nppBackup/
 
 # vim related
 *~
+
+# vscode related
+.history/
