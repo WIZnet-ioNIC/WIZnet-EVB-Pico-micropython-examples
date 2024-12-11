@@ -246,3 +246,34 @@ To use this script, follow these steps:
 4. Navigate to the directory containing this script.
 5. Run the script using the following command format:
 
+## DNS Client
+
+## DNS Client
+
+**File:** dns_client.py
+
+This code demonstrates how to use the WIZnet W5x00 series Ethernet chip to perform DNS (Domain Name System) resolution. The example shows how to convert domain names into IP addresses using the built-in socket interface, supporting both static and dynamic IP configurations.
+
+### Expected Output
+
+```shell
+WIZnet chip DNS example
+MAC Address: 00:11:22:33:44:55
+IP Address: ('192.168.7.111', '255.255.255.0', '192.168.7.1', '168.126.63.1')
+IP address of www.wiznet.io is 111.111.111.111
+```
+
+### Important Considerations
+Ensure proper network configuration (static IP or DHCP) before running the DNS client
+The DNS client requires a valid DNS server address (default: 8.8.8.8)
+Make sure your network allows DNS queries (UDP port 53)
+
+### Implementation Details
+The DNS client uses MicroPython's usocket.getaddrinfo() function to perform DNS resolution. The implementation includes:
+
+* Simple domain name to IP address resolution
+* LED status indicator for operation feedback
+* Error handling for network connectivity issues
+
+Please refer to the MicroPython documentation for more details on the usocket.getaddrinfo() function.
+
