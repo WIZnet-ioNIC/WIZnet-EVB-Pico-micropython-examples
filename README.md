@@ -248,8 +248,6 @@ To use this script, follow these steps:
 
 ## DNS Client
 
-## DNS Client
-
 **File:** dns_client.py
 
 This code demonstrates how to use the WIZnet W5x00 series Ethernet chip to perform DNS (Domain Name System) resolution. The example shows how to convert domain names into IP addresses using the built-in socket interface, supporting both static and dynamic IP configurations.
