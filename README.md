@@ -261,17 +261,51 @@ IP Address: ('192.168.7.111', '255.255.255.0', '192.168.7.1', '168.126.63.1')
 IP address of www.wiznet.io is 111.111.111.111
 ```
 
+## MQTT Client
+
+**File:** mqtt_client_test.py
+
+### dependencies
+
+**File:** w5x00.py, umqttsimple.py
+
+This MicroPython script implements an MQTT client for W55RP20, utilizing the umqttsimple library. It connects to an MQTT broker, publishes messages periodically, and handles reconnections.
+
+### Expected Output
+
+#### this program
+
+```shell
+Connected to 192.168.1.2 MQTT Broker
+```
+
+#### mosquitto mqtt broker
+
+```shell
+1734315706: New connection from 222.98.173.219 on port 1883.
+1734315706: New client connected from 222.98.173.219 as wiz2 (c1, k60).
+1734315706: No will message specified.
+1734315706: Sending CONNACK to wiz2 (0, 0)
+1734315706: Received PUBLISH from wiz2 (d0, q0, r0, m0, 'kkk', ... (10 bytes))
+1734315709: Received PUBLISH from wiz2 (d0, q0, r0, m0, 'kkk', ... (10 bytes))
+1734315712: Received PUBLISH from wiz2 (d0, q0, r0, m0, 'kkk', ... (10 bytes))
+...
+```
+
 ### Important Considerations
-Ensure proper network configuration (static IP or DHCP) before running the DNS client
-The DNS client requires a valid DNS server address (default: 8.8.8.8)
-Make sure your network allows DNS queries (UDP port 53)
+#### MQTT Broker Configuration
 
-### Implementation Details
-The DNS client uses MicroPython's usocket.getaddrinfo() function to perform DNS resolution. The implementation includes:
+    The mqtt_server variable must be changed to the actual IP address of your MQTT broker. For example, if you're using AWS EC2, use the public IP address of your EC2 instance.
+    The port variable should be set to the actual port number of your MQTT broker. While MQTT typically uses port 1883, this may vary depending on your broker's configuration.
+    Set the topic_pub variable to the topic name you want to publish to. This defines the subject or category of your messages.
+    Configure the topic_msg variable with the actual message content you wish to publish. This is the payload that will be sent to the specified topic.
 
-* Simple domain name to IP address resolution
-* LED status indicator for operation feedback
-* Error handling for network connectivity issues
+#### Additional Considerations
 
-Please refer to the MicroPython documentation for more details on the usocket.getaddrinfo() function.
+    Adjust firewall settings to allow external access to the MQTT broker if required.
+    For enhanced security, it's recommended to set allow_anonymous to false and implement user authentication.
+    When connecting from external networks, ensure you're using the public IP address.
+    If using cloud services like EC2, open the necessary port (typically 1883) for MQTT communication in the security group settings.
+    Depending on your network environment, port forwarding may be necessary.
+    Regularly update your broker software and client libraries to ensure you have the latest security patches and features.
 
