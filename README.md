@@ -156,6 +156,9 @@ To use a dynamic IP (DHCP), modify the settings as follows:
 nic.ifconfig('dhcp')
 ```
 
+### for https test ###
+Please use HTTPS_Client.py.
+
 ## SNTP Client
 
 **File:** sntp.py
