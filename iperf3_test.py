@@ -202,8 +202,9 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
                     if udp:
                         s_data = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                         try:
+                            # time.sleep(5)
                             s_data.sendto(struct.pack("<I", 123456789), (host, port))
-                            s_data.recv(4)
+                            s_data.recvfrom(4)
                         except socket.error as e:
                             print(f"Failed to create UDP stream: {e}")
                             return
@@ -243,7 +244,10 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
                             print("Started sending data.")
                             while stats.running:
                                 try:
-                                    n = s_data.send(buf)
+                                    if not udp:
+                                        n = s_data.send(buf)
+                                    else:
+                                        n = s_data.sendto(buf, (host, port))
                                     if n == 0:
                                         print("No data sent, breaking loop.")
                                         break
@@ -264,7 +268,11 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
                         stats.start()
                         while stats.running:
                             try:
-                                n = s_data.recv_into(buf)
+                                if udp:
+                                    data, _ = s_data.recvfrom(param["len"])
+                                    n = len(data)
+                                else:
+                                    n = s_data.recv_into(buf)
                                 if n == 0:
                                     stats.stop()
                                     print("Connection closed by peer.")
@@ -325,11 +333,13 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
 
 
 if __name__ == "__main__":
+    opt_udp = False
+    # opt_udp = True
     if len(sys.argv) < 2:
         print("Usage: python client.py <server_ip> [port]")
         sys.exit(1)
     if len(sys.argv) >= 3:
         port = int(sys.argv[2])
-        client(sys.argv[1], port=port, udp=False, reverse=False)
+        client(sys.argv[1], port=port, udp=opt_udp, reverse=False)
     else:
-        client(sys.argv[1], udp=False, reverse=False)
+        client(sys.argv[1], udp=opt_udp, reverse=False)
