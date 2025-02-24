@@ -51,7 +51,7 @@ class Stats:
     def __init__(self, param):
         self.pacing_timer_us = (
             param["pacing_timer"] * 500
-        )  # 기존의 절반으로 조정하여 업데이트 주기 증가
+        )  # decrease pacing_timer from 1000 to 500 to increase the update frequency.
         self.udp = param.get("udp", False)
         self.reverse = param.get("reverse", False)
         self.running = False
@@ -69,7 +69,7 @@ class Stats:
         self.nb1 += n
         if DEBUG:
             print(f"add_bytes called: nb0={self.nb0}, nb1={self.nb1}")
-        # 충분한 데이터가 수집된 경우에만 update 호출
+        # Call update only when sufficient data has been collected.
         if self.nb1 >= self.pacing_timer_us / 1e6:
             self.update()
 
@@ -119,7 +119,7 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
         param["bandwidth"] = bandwidth
     else:
         param["tcp"] = True
-        param["len"] = 1500  # 기존의 3000에서 줄여 네트워크 안정성 향상
+        param["len"] = 1500  # Reduced from 3000 to improve network stability.
 
     if reverse:
         param["reverse"] = True
@@ -129,11 +129,11 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
     s_ctrl = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s_ctrl.setsockopt(
         socket.SOL_SOCKET, socket.SO_RCVBUF, 4 * 1024 * 1024
-    )  # 수신 버퍼 크기 증가
+    )  # Increase receive buffer size.
     s_ctrl.setsockopt(
         socket.SOL_SOCKET, socket.SO_SNDBUF, 4 * 1024 * 1024
-    )  # 송신 버퍼 크기 증가
-    s_ctrl.settimeout(30)  # 타임아웃 설정 (30초)
+    )  # Increase send buffer size.
+    s_ctrl.settimeout(30)  # Set timeout (30 seconds).
     max_retries = 5
     for attempt in range(max_retries):
         try:
@@ -142,8 +142,8 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
         except socket.error as e:
             print(f"Attempt {attempt + 1} failed to connect: {e}")
             if attempt == max_retries - 1:
-                return  # 모든 재시도가 실패한 경우 종료
-            time.sleep(5)  # 재시도 전에 5초 대기
+                return  # Exit if all retry attempts fail.
+            time.sleep(5)  # Wait 5 seconds before retrying.
 
     print("Connected to server.")
 
@@ -213,13 +213,13 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
                         s_data = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                         s_data.setsockopt(
                             socket.SOL_SOCKET, socket.SO_RCVBUF, 4 * 1024 * 1024
-                        )  # 수신 버퍼 크기 증가
+                        )  # Increase receive buffer size.
                         s_data.setsockopt(
                             socket.SOL_SOCKET, socket.SO_SNDBUF, 4 * 1024 * 1024
-                        )  # 송신 버퍼 크기 증가
+                        )  # Increase send buffer size.
                         s_data.setsockopt(
                             socket.IPPROTO_TCP, socket.TCP_NODELAY, 1
-                        )  # 네이글 알고리즘 비활성화
+                        )  # Disable Nagle's algorithm.
                         try:
                             s_data.connect((host, port))
                             s_data.sendall(cookie)
@@ -254,7 +254,9 @@ def client(host, port=5201, udp=False, reverse=False, bandwidth=10 * 1024 * 1024
                                     stats.add_bytes(n)
                                     if DEBUG:
                                         print(f"Sent {n} bytes. stats={stats.__dict__}")
-                                    time.sleep(0.005)  # 기존 0.01초에서 0.005초로 줄임
+                                    time.sleep(
+                                        0.005
+                                    )  # Reduced from 0.01 seconds to 0.005 seconds.
                                 except socket.error as e:
                                     if (
                                         e.errno != 11

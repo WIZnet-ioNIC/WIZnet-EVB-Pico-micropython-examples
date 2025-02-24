@@ -1,23 +1,23 @@
 """
-# 사용 예시:
+# Usage Example:
 
 from w5x00 import w5x00_init
 
-# 1. DHCP를 사용하여 네트워크 초기화
+# 1. Network initialization using DHCP
 nic = w5x00_init()
 
-# 2. 고정 IP를 사용하여 네트워크 초기화
+# 2. Network initialization using a static IP
 ip_info = ('192.168.1.100', '255.255.255.0', '192.168.1.1', '8.8.8.8')
 nic = w5x00_init(ip_info=ip_info, use_dhcp=False)
 
-# 3. DHCP를 사용하지 않고 기본 고정 IP로 네트워크 초기화
+# 3. Network initialization with a default static IP without using DHCP
 nic = w5x00_init(use_dhcp=False)
 
-# 초기화된 네트워크 인터페이스 사용
-print(nic.ifconfig())  # 현재 네트워크 설정 출력
+# Print the current network configuration
+print(nic.ifconfig())
 
-# 주의: w5x00_init 함수는 네트워크 연결이 설정될 때까지 대기합니다.
-# 따라서 이 함수 호출 후에는 네트워크가 이미 연결된 상태입니다.
+# Note: The w5x00_init function waits until the network connection is established.
+# Therefore, by the time this function returns, the network is already connected.
 """
 
 from machine import Pin, WIZNET_PIO_SPI
