@@ -26,7 +26,7 @@ import time
 
 
 # W5x00 chip initialization
-def w5x00_init(ip_info=None, use_dhcp=True):
+def w5x00_init(ip_info=None, use_dhcp=True, retry=5):
     # ip_info = ('192.168.11.20','255.255.255.0','192.168.11.1','8.8.8.8')
     spi = WIZNET_PIO_SPI(
         baudrate=31_250_000, mosi=Pin(23), miso=Pin(22), sck=Pin(21)
@@ -43,7 +43,7 @@ def w5x00_init(ip_info=None, use_dhcp=True):
         nic.ifconfig(("192.168.11.20", "255.255.255.0", "192.168.11.1", "8.8.8.8"))
     else:
         # DHCP
-        for i in range(5):  # DHCP sometimes fails, so we try multiple attempts
+        for i in range(retry):  # DHCP sometimes fails, so we try multiple attempts
             try:
                 nic.ifconfig("dhcp")
             except Exception as e:
