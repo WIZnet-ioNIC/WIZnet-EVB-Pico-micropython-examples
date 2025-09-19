@@ -1,11 +1,17 @@
-from usocket import socket, AF_INET, SOCK_DGRAM, getaddrinfo
-from machine import Pin, WIZNET_PIO_SPI
-import network
-import time
-import struct
+# ===== Net Config (edit here) =====
+BOARD    = "W6300-EVB-Pico2"  # Board name is case-insensitive
+USE_DHCP = True
 
+# Static IP settings (used when USE_DHCP=False)
+NET_IP   = "192.168.11.20"
+NET_SN   = "255.255.255.0"
+NET_GW   = "192.168.11.1"
+NET_DNS  = "8.8.8.8"
+# ==================================
+
+from usocket import socket, AF_INET, SOCK_DGRAM, getaddrinfo
+from wiznet_init import wiznet
 from picoredis import Redis
-from w5x00 import w5x00_init
 
 
 def redis_test():
@@ -21,7 +27,10 @@ def redis_test():
 
 
 def main():
-    nic = w5x00_init()
+    if USE_DHCP:
+        nic = wiznet(BOARD, dhcp=True)
+    else:
+        nic = wiznet(BOARD, dhcp=False, ip=NET_IP, sn=NET_SN, gw=NET_GW, dns=NET_DNS)
 
     # redis test
     redis_test()

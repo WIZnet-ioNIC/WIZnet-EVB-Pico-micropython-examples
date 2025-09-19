@@ -1,10 +1,18 @@
+# ===== Net Config (edit here) =====
+BOARD    = "W6300-EVB-Pico2"  # Board name is case-insensitive
+USE_DHCP = False
+
+# Static IP settings (used when USE_DHCP=False)
+NET_IP   = "192.168.11.20"
+NET_SN   = "255.255.255.0"
+NET_GW   = "192.168.11.1"
+NET_DNS  = "8.8.8.8"
+# ==================================
+
 from usocket import socket, AF_INET, SOCK_DGRAM, getaddrinfo
-from machine import Pin, WIZNET_PIO_SPI
-import network
 import time
 import struct
-from w5x00 import w5x00_init
-
+from wiznet_init import wiznet
 
 # Function to synchronize time from the SNTP server
 def sntp_request(nic):
@@ -54,13 +62,14 @@ def sntp_request(nic):
     finally:
         sock.close()
 
-
 def main():
-    nic = w5x00_init()
+    if USE_DHCP:
+        nic = wiznet(BOARD, dhcp=True)
+    else:
+        nic = wiznet(BOARD, dhcp=False, ip=NET_IP, sn=NET_SN, gw=NET_GW, dns=NET_DNS)
 
     # Send SNTP time synchronization request
     sntp_request(nic)
-
 
 if __name__ == "__main__":
     main()
