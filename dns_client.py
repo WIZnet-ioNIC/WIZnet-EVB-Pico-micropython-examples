@@ -1,7 +1,7 @@
 # ===== Net Config (edit here) =====
 BOARD    = "W6300-EVB-Pico2"  # Board name is case-insensitive
-DOMAIN   = "www.wiznet.io"                  # 0: "server", 1: "client"
-USE_DHCP = False
+DOMAIN   = "example.com"
+USE_DHCP = True
 
 # Static IP settings (used when USE_DHCP=False)
 NET_IP   = "192.168.11.20"

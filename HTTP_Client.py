@@ -1,6 +1,6 @@
 # ===== Net Config (edit here) =====
 BOARD    = "W6300-EVB-Pico2"  # Board name is case-insensitive
-USE_DHCP = False
+USE_DHCP = True
 
 # Static IP settings (used when USE_DHCP=False)
 NET_IP   = "192.168.11.20"
@@ -11,19 +11,17 @@ NET_DNS  = "8.8.8.8"
 URL      = "http://httpbin.org"
 # ==================================
 
-from usocket import socket
 import urequests
 from wiznet_init import wiznet
 
 def request(url: str):
     r = urequests.get(f"{url}/get")
-    # r.raise_for_status
     print(r.status_code)
     print(r.text)
-    r = urequests.post(f"{url}/post", json={"WIZnet Test"})
-    if not r:
-        print("spreadsheet: no response received")
+    r.close()
+    r = urequests.post(f"{url}/post", json={"message": "WIZnet Test"})
     print(r.json())
+    r.close()
 
 def main():
     if USE_DHCP:

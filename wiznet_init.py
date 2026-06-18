@@ -82,8 +82,7 @@ def wiznet(board, *, dhcp=True, spi=None, cs=None, reset=None, **kw):
     except AttributeError: pass
 
     if dhcp:
-        try: nic.ifconfig("dhcp")
-        except Exception: pass
+        nic.ifconfig("dhcp")
     else:
         ip = cfg.get("ip"); sn = cfg.get("sn"); gw = cfg.get("gw"); dns = cfg.get("dns", gw or "8.8.8.8")
         if not (ip and sn and gw): raise ValueError("Static mode requires ip/sn/gw")

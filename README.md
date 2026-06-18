@@ -1,13 +1,15 @@
 # 🚀 WIZnet-ioNIC-micropython-examples
 
 - Main firmware repository:
-  - https://github.com/WIZnet-ioNIC/WIZnet-EVB-Pico-micropython.git
+  - [fix-wiznet-timeout](https://github.com/WIZnet-ioNIC/WIZnet-EVB-Pico-micropython/tree/fix-wiznet-timeout) branch **(recommended — required for MQTT)**
+  - [WIZnet-ioNIC-micropython](https://github.com/WIZnet-ioNIC/WIZnet-EVB-Pico-micropython/tree/WIZnet-ioNIC-micropython) branch (base PR)
+- Upstream MicroPython PR: https://github.com/micropython/micropython/pull/18035
 - This repository contains MicroPython example scripts for the WIZnet EVB Boards.
 
 ## ⚡ Quick Start (Release UF2 Recommended)
 
 ### Step 1: Download Firmware
-- Download the appropriate `firmware.uf2` file for your board from the [Releases](https://github.com/WIZnet-ioNIC/WIZnet-ioNIC-micropython/releases) page.
+- Download the appropriate `firmware.uf2` file for your board from the [Releases](https://github.com/WIZnet-ioNIC/WIZnet-EVB-Pico-micropython/releases) page.
     - Example: `build-W55RP20_EVB_PICO/firmware.uf2`, `build-W6300_EVB_PICO/firmware.uf2`
 
 ### Step 2: Flash Firmware
@@ -42,6 +44,7 @@ This repository includes various network example scripts:
 - `dns_client.py` : DNS domain name resolution example
 - `sntp.py` : NTP time synchronization example
 - `redis_client.py` : Redis server connection and data store/retrieve example
+- `mqtt_client.py` : MQTT broker subscribe example
 
 Edit the configuration (network, board name, etc.) at the top of each script to match your environment, then run with Thonny or similar tools.
 
