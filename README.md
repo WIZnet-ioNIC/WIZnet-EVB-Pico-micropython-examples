@@ -2,7 +2,7 @@
 
 - Main firmware repository:
   - [fix-wiznet-timeout](https://github.com/WIZnet-ioNIC/WIZnet-EVB-Pico-micropython/tree/fix-wiznet-timeout) branch **(recommended — required for MQTT)**
-  - [WIZnet-ioNIC-micropython](https://github.com/WIZnet-ioNIC/WIZnet-EVB-Pico-micropython/tree/WIZnet-ioNIC-micropython) branch (base PR)
+  - [WIZnet-ioNIC-micropython](https://github.com/WIZnet-ioNIC/WIZnet-EVB-Pico-micropython/tree/WIZnet-EVB-Pico-micropython) branch (base PR)
 - Upstream MicroPython PR: https://github.com/micropython/micropython/pull/18035
 - This repository contains MicroPython example scripts for the WIZnet EVB Boards.
 
